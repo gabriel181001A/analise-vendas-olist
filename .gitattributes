@@ -4,3 +4,7 @@
 # (o notebook continua visível e renderizado normalmente no repo),
 # deixando Python e SQL aparecerem na barra de linguagens.
 *.ipynb linguist-documentation
+
+# Por padrão o GitHub não conta SQL na barra de linguagens (trata como
+# "linguagem de dados"). Isto força o SQL a aparecer nas estatísticas.
+*.sql linguist-detectable=true
