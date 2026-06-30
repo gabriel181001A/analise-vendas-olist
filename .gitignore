@@ -1,0 +1,20 @@
+# Dados brutos (baixe do Kaggle) — não versionar arquivos grandes
+data/raw/*.csv
+data/processed/*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Jupyter
+*.ipynb_checkpoints
+
+# Power BI temporário
+*.tmp
+
+# Sistema
+.DS_Store
+Thumbs.db

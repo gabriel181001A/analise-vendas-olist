@@ -1,0 +1,39 @@
+{
+  "name": "Olist Vendas Pro",
+  "dataColors": [
+    "#15466B",
+    "#2E86C1",
+    "#48C9B0",
+    "#F5B041",
+    "#EC7063",
+    "#5499C7",
+    "#45B39D",
+    "#AF7AC5"
+  ],
+  "background": "#F5F7FA",
+  "foreground": "#2C3E50",
+  "tableAccent": "#15466B",
+  "good": "#27AE60",
+  "neutral": "#F5B041",
+  "bad": "#E74C3C",
+  "maximum": "#15466B",
+  "center": "#F5B041",
+  "minimum": "#E74C3C",
+  "textClasses": {
+    "title": {
+      "color": "#15466B",
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 14
+    },
+    "header": {
+      "color": "#15466B",
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 12
+    },
+    "label": {
+      "color": "#2C3E50",
+      "fontFace": "Segoe UI",
+      "fontSize": 10
+    }
+  }
+}
