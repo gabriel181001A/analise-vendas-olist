@@ -1,0 +1,6 @@
+# O notebook (.ipynb) é grande e, sozinho, faz o GitHub mostrar
+# "Jupyter Notebook 100%", escondendo as linguagens de fato usadas.
+# Marcá-lo como documentação tira ele da contagem de linguagens
+# (o notebook continua visível e renderizado normalmente no repo),
+# deixando Python e SQL aparecerem na barra de linguagens.
+*.ipynb linguist-documentation
