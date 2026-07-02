@@ -96,3 +96,56 @@ SELECT
     SUM(CASE WHEN qtd_pedidos > 1 THEN 1 ELSE 0 END)              AS clientes_recorrentes,
     ROUND(100.0 * SUM(CASE WHEN qtd_pedidos > 1 THEN 1 ELSE 0 END) / COUNT(*), 2) AS taxa_recompra_pct
 FROM pedidos_por_cliente;
+
+
+-- ------------------------------------------------------------
+-- 6) Segmentação RFM de clientes
+--    Recência (dias desde a última compra), Frequência (nº de pedidos)
+--    e Monetário (total gasto), com nota 1-5 por quintil (NTILE).
+--    Segmento definido por R e M (a Frequência quase não varia: recompra ~3%).
+-- ------------------------------------------------------------
+WITH base AS (
+    SELECT
+        c.customer_unique_id,
+        MAX(o.order_purchase_timestamp)     AS ultima_compra,
+        COUNT(DISTINCT o.order_id)          AS frequencia,
+        SUM(p.payment_value)                AS monetario
+    FROM orders o
+    JOIN customers c ON c.customer_id = o.customer_id
+    JOIN payments  p ON p.order_id    = o.order_id
+    WHERE o.order_status = 'delivered'
+    GROUP BY c.customer_unique_id
+),
+rfm AS (
+    SELECT
+        customer_unique_id,
+        frequencia,
+        monetario,
+        -- recência em dias em relação à data de referência (máxima da base)
+        JULIANDAY((SELECT MAX(ultima_compra) FROM base)) - JULIANDAY(ultima_compra) AS recencia,
+        6 - NTILE(5) OVER (ORDER BY ultima_compra DESC) AS r_score,   -- mais recente = nota maior
+        NTILE(5) OVER (ORDER BY monetario ASC)          AS m_score     -- gasta mais = nota maior
+    FROM base
+),
+segmentado AS (
+    SELECT
+        customer_unique_id, recencia, frequencia, monetario, r_score, m_score,
+        CASE
+            WHEN r_score >= 4 AND m_score >= 4 THEN 'Campeões'
+            WHEN m_score >= 4                  THEN 'Alto valor'
+            WHEN r_score >= 4                  THEN 'Clientes recentes'
+            WHEN r_score <= 2 AND m_score >= 3 THEN 'Em risco'
+            WHEN r_score <= 2                  THEN 'Hibernando'
+            ELSE 'Intermediários'
+        END AS segmento
+    FROM rfm
+)
+SELECT
+    segmento,
+    COUNT(*)                          AS clientes,
+    ROUND(SUM(monetario), 2)          AS receita_total,
+    ROUND(AVG(monetario), 2)          AS ticket_medio,
+    ROUND(AVG(recencia), 0)           AS recencia_media_dias
+FROM segmentado
+GROUP BY segmento
+ORDER BY receita_total DESC;

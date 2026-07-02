@@ -95,6 +95,13 @@ pouco individualmente.
 **Quase ninguém compra duas vezes.** A taxa de recompra ficou em apenas **3%** — de cada 100 clientes, só
 3 voltam a comprar. É uma base enorme de gente que comprou uma vez e sumiu.
 
+**A receita se concentra em poucos clientes.** Fiz uma segmentação **RFM** (Recência, Frequência e valor
+Monetário) e os grupos **Campeões** e **Alto valor** somam ~40% dos clientes, mas respondem por **~74% da
+receita**. O que salta aos olhos: o segmento *Alto valor* já não compra há um bom tempo — é dinheiro
+esfriando, e seria onde eu focaria uma ação de reativação.
+
+![Segmentação RFM de clientes](reports/figures/rfm_segmentos.png)
+
 ### O que me surpreendeu
 
 Duas coisas. A primeira foi **o tamanho** do impacto do atraso na nota — eu esperava alguma relação, mas
@@ -151,10 +158,9 @@ RETURN DIVIDE(Recorrentes, [Qtd Clientes])
 Sendo honesto sobre o que ficou de fora: a análise é **descritiva** — ela mostra o que aconteceu, mas
 não explica a fundo o porquê. Com mais tempo, eu:
 
-- faria uma **segmentação de clientes** (tipo RFM) pra entender os perfis de compra em vez de olhar a
-  média geral;
 - **cruzaria os atrasos com frete e distância** pra ver se a geografia explica os problemas de entrega;
-- **publicaria o dashboard online** em vez de deixar só o arquivo.
+- aprofundaria a segmentação RFM com um modelo de **previsão de churn** (quais clientes têm mais risco de sumir);
+- levaria a análise de coorte pra medir **retenção ao longo do tempo**, não só a foto atual.
 
 Também assumo que pegar a categoria mais frequente de cada pedido é uma simplificação: em pedidos com
 itens de categorias diferentes, isso perde um pouco de informação.
